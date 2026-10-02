@@ -71,8 +71,6 @@ The current demo credentials are:
 - Email: `admin@example.com`
 - Password: `password`
 
-If you imported an older copy of `schema.sql`, run `database/fix_demo_login.sql` in phpMyAdmin. The original package contained an invalid demo password hash; this updated package contains the corrected hash.
-
 If login still fails:
 
 1. Confirm Apache and MySQL are running.
