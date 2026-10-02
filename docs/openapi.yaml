@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: LedgerFlow Financial Transaction API
+  version: 1.0.0
+servers:
+  - url: http://localhost/financial-transaction-system/api
+security:
+  - bearerAuth: []
+paths:
+  /login.php:
+    post:
+      security: []
+      summary: Issue API bearer token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Login' }
+      responses:
+        '200': { description: Token issued }
+        '401': { description: Invalid credentials }
+  /auth.php:
+    get: { summary: Get current API user, responses: {'200': {description: OK}} }
+    delete: { summary: Revoke current bearer token, responses: {'200': {description: Revoked}} }
+  /customers.php:
+    get: { summary: List customers, responses: {'200': {description: OK}} }
+  /accounts.php:
+    get: { summary: List chart of accounts, responses: {'200': {description: OK}} }
+  /funding_sources.php:
+    get: { summary: List funding sources, responses: {'200': {description: OK}} }
+  /transactions.php:
+    get: { summary: Search transactions, responses: {'200': {description: OK}} }
+    post:
+      summary: Post balanced double-entry transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Transaction' }
+      responses:
+        '201': { description: Posted }
+        '200': { description: Existing idempotent transaction returned }
+        '422': { description: Validation/accounting error }
+    delete:
+      summary: Reverse a posted transaction
+      parameters:
+        - {name: id, in: query, required: true, schema: {type: integer}}
+      responses:
+        '200': { description: Reversal posted }
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: token}
+  schemas:
+    Login:
+      type: object
+      required: [email,password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string, format: password}
+    Transaction:
+      type: object
+      required: [amount, transaction_type, idempotency_key, entries]
+      properties:
+        amount: {type: string, example: '500.00'}
+        currency: {type: string, example: USD}
+        customer_id: {type: integer}
+        funding_source_id: {type: integer}
+        transaction_type: {type: string, example: customer_payment}
+        description: {type: string}
+        idempotency_key: {type: string, example: DEMO-500-001}
+        entries:
+          type: array
+          minItems: 2
+          items:
+            type: object
+            required: [account_id,debit,credit]
+            properties:
+              account_id: {type: integer}
+              debit: {type: string}
+              credit: {type: string}

@@ -1,0 +1,15 @@
+{
+  "info": {"name":"LedgerFlow API","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[{"key":"base_url","value":"http://localhost/financial-transaction-system/public"},{"key":"token","value":""}],
+  "item":[
+    {"name":"Login","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"},"url":{"raw":"{{base_url}}/../api/login.php","host":["{{base_url}}"],"path":["..","api","login.php"]}}},
+    {"name":"Current User","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/auth.php"}},
+    {"name":"Customers","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/customers.php"}},
+    {"name":"Accounts","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/accounts.php"}},
+    {"name":"Funding Sources","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/funding_sources.php"}},
+    {"name":"Transactions","request":{"method":"GET","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/transactions.php"}},
+    {"name":"Post Transaction","request":{"method":"POST","header":[{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"amount\": \"500.00\",\n  \"currency\": \"USD\",\n  \"customer_id\": 1,\n  \"funding_source_id\": 1,\n  \"transaction_type\": \"customer_payment\",\n  \"description\": \"Demo payment\",\n  \"idempotency_key\": \"DEMO-500-001\",\n  \"entries\": [\n    {\"account_id\": 1, \"debit\": \"500.00\", \"credit\": \"0.00\"},\n    {\"account_id\": 3, \"debit\": \"0.00\", \"credit\": \"500.00\"}\n  ]\n}"},"url":"{{base_url}}/../api/transactions.php"}},
+    {"name":"Reverse Transaction","request":{"method":"DELETE","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/transactions.php?id=1"}},
+    {"name":"Revoke Token","request":{"method":"DELETE","header":[{"key":"Authorization","value":"Bearer {{token}}"}],"url":"{{base_url}}/../api/auth.php"}}
+  ]
+}
