@@ -15,16 +15,3 @@
 | Auditability | `audit_logs` |
 | Testing | manual acceptance checklist + ledger invariant scenarios |
 
-## Production gaps to discuss with client
-
-- Exact payment/funding providers and their webhooks
-- Multi-currency and FX requirements
-- Tax/VAT requirements
-- Reconciliation against external providers/banks
-- PCI DSS scope if card data is ever handled
-- MFA/SSO requirements
-- Fine-grained RBAC
-- Formal immutable audit-log storage / SIEM
-- Load target and SLA
-- Backup retention and disaster recovery
-- Independent security and accounting review
